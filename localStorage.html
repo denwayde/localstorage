@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		localStorage.setItem('a', 'Hello world');
+
+		localStorage.setItem('b', 'How are you?');
+		//localStorage.removeItem('a');
+
+		let b = localStorage.getItem('b');
+		console.log(localStorage);
+		console.log(b);
+		console.log(localStorage.key(1));
+
+	</script>
+</body>
+</html>

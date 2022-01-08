@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<textarea name="" id="tA" cols="30" rows="10"></textarea>
+	<script>
+		/*Дан текстареа. В него вводится текст. Сделайте так, чтобы после захода на эту страницу через некоторое время, введенный текст остался в текстареа. Текст должен запоминаться в локальном хранилище*/
+		let ta = document.querySelector('#tA');
+		/*console.log(ta);
+		ta.value = 'Hello world';*/
+		let storage = localStorage.getItem('text');
+		ta.addEventListener('change', function() {
+			localStorage.setItem('text', ta.value);	
+		});
+		window.onload = function() {
+			if (storage!==null) {
+				ta.value = storage;
+			}
+		}
+		
+	</script>
+</body>
+</html>

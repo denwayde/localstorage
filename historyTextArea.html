@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div id="btnGr"><button>UP</button> <button>DOWN</button></div>
+	<textarea name="ta" id="ta" cols="30" rows="10"></textarea>
+	<script>
+		/*Дан текстареа. В него можно ввести данные, затем поредактировать их, затем еще поредактировать. Пусть текстареа хранит историю своих изменений (даже после перезагрузки страницы). Сверху над текстареа должны появится стрелочки, с помощью которых можно перемещаться по истории.*/
+		let btnGr = document.querySelector('#btnGr');
+		
+		let ta = document.querySelector('#ta');
+		let arr = [];
+		let n = 0;
+		let arrStr = localStorage.getItem('arr');
+		
+		ta.addEventListener('change', function(){
+			arr.push(this.value);
+			let strArr = JSON.stringify(arr);
+			localStorage.setItem('arr', strArr);
+			//console.log(arr);
+			console.log(localStorage);
+			btnGr.style.display = 'block';
+			arr = JSON.parse(localStorage.getItem('arr'));
+			//console.log(arr);
+			ta.value = arr[arr.length-1];
+			n = arr.length-1
+		});
+
+		window.onload = function() {
+		
+			if (arrStr!==null) {
+				btnGr.style.display = 'block';
+				arr = JSON.parse(arrStr);
+				ta.value = arr[arr.length-1];
+				n = arr.length-1
+				console.log(arr);
+			}
+
+			if (arrStr==null) {
+				btnGr.style.display = 'none';
+			}
+		}
+
+		btnGr.children[0].addEventListener('click', function() {
+			if(n!==arr.length-1){
+				n++;
+				
+				ta.value = arr[n];
+			}
+		});
+		btnGr.children[1].addEventListener('click', function() {
+			if(n!==0){
+				n=n-1;
+				
+				ta.value = arr[n];
+			}
+		});
+		//console.log(localStorage.getItem('brr'));
+
+
+	</script>
+</body>
+</html>

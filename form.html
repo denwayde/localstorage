@@ -119,16 +119,18 @@
 
 
 	window.addEventListener('load', function() {
-		let dateFromLS = localStorage.getItem('b');
-		let objFromStr = JSON.parse(dateFromLS);
-		console.log(objFromStr);
-		email.value = objFromStr.emailVal;
-		option.selectedIndex = objFromStr.opt;
-		option1.selectedIndex = objFromStr.opt1;
-		ta.value = objFromStr.textArea;
-		for (let i = 0; i < objFromStr.checkedNum.length; i++) {
+		if (localStorage['b']!==undefined) {
+			let dateFromLS = localStorage.getItem('b');
+			let objFromStr = JSON.parse(dateFromLS);
+			console.log(objFromStr);
+			email.value = objFromStr.emailVal;
+			option.selectedIndex = objFromStr.opt;
+			option1.selectedIndex = objFromStr.opt1;
+			ta.value = objFromStr.textArea;
+			for (let i = 0; i < objFromStr.checkedNum.length; i++) {
 
-			checks[objFromStr.checkedNum[i]].checked = true;
+				checks[objFromStr.checkedNum[i]].checked = true;
+			}
 		}
 	});
 

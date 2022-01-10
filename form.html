@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>FormGroup</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+	<style>
+		.outline-red {
+			color: #495057;
+			background-color: #fff;
+			border-color: #ff8c80;
+			outline: 0;
+			box-shadow: 0 0 0 .2rem rgba(255, 0, 0, 0.25);
+		}
+
+		.outline-green {
+			color: #495057;
+			background-color: #fff;
+			border-color: #96ff80;
+			outline: 0;
+			box-shadow: 0 0 0 .2rem rgba(68, 223, 12, 0.5);
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div id="formGr" class="mt-5">
+<form>
+	<div class="form-group">
+	    <label for="exampleFormControlInput1">Email address</label>
+	    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+	  </div>
+	<div class="form-group">
+	<label for="exampleFormControlSelect1">Example select</label>
+		<select class="form-control" id="exampleFormControlSelect1">
+		    <option>1</option>
+		    <option>2</option>
+		    <option>3</option>
+		    <option>4</option>
+		    <option>5</option>
+		</select>
+	</div>
+	<div class="form-group">
+	<label for="exampleFormControlSelect2">Example multiple select</label>
+		<select multiple class="form-control" id="exampleFormControlSelect2">
+		    <option>1</option>
+		    <option>2</option>
+		    <option>3</option>
+		    <option>4</option>
+		    <option>5</option>
+		</select>
+	</div>
+	<div class="form-group">
+	    <label for="exampleFormControlTextarea1">Example textarea</label>
+	    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+	</div>
+
+	<div class="form-check form-check-inline">
+		<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+		<label class="form-check-label" for="inlineCheckbox1">1</label>
+	</div>
+	<div class="form-check form-check-inline">
+		<input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+		<label class="form-check-label" for="inlineCheckbox2">2</label>
+	</div>
+	<div class="form-check form-check-inline mb-3">
+		<input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+		<label class="form-check-label" for="inlineCheckbox3">3</label>
+	</div>
+
+	<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+		</div>
+	</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+<script>
+	/*Дана форма с инпутами, текстареа, чекбоксами, радио кнопочками, селектами и тп. Пользователь вводит какие-то данные и закрывает страницу (не факт, что он заполнил всю форму). Сделайте так, чтобы при следующем заходе на страницу введенные им ранее данные стояли на своих местах. Сделайте ваш скрипт как можно более универсальным.*/
+	let email = document.querySelector('#exampleFormControlInput1');
+	let option = document.querySelector('#exampleFormControlSelect1');
+	let option1 = document.querySelector('#exampleFormControlSelect2');
+	let ta = document.querySelector('#exampleFormControlTextarea1');
+	let checks = document.querySelectorAll('input[type="checkbox"]');
+	let btn = document.querySelector('button');
+
+	/*option.selectedIndex = 1;
+	option1.selectedIndex = 1;
+	ta.value = 'hello world';
+	console.log(btn);*/
+	let formObj = {};
+	
+	
+	//console.log(arr);
+	//console.log(checks[0].checked = true);
+	
+
+	btn.addEventListener('click', function(e) {
+		e.preventDefault();
+		let arr = [];
+		formObj.emailVal = email.value;
+		formObj.opt = option.selectedIndex;
+		formObj.opt1 = option1.selectedIndex;
+		formObj.textArea = ta.value;
+		for (let i = 0; i < checks.length; i++) {
+			//arr.push(checks[i]);
+			if(checks[i].checked == true){
+				arr.push(i);
+				formObj.checkedNum = arr;
+				
+			}
+		}
+		
+		let strFormObj = JSON.stringify(formObj);
+		localStorage.setItem('b', strFormObj);
+		console.log(localStorage);
+	});
+
+
+	window.addEventListener('load', function() {
+		let dateFromLS = localStorage.getItem('b');
+		let objFromStr = JSON.parse(dateFromLS);
+		console.log(objFromStr);
+		email.value = objFromStr.emailVal;
+		option.selectedIndex = objFromStr.opt;
+		option1.selectedIndex = objFromStr.opt1;
+		ta.value = objFromStr.textArea;
+		for (let i = 0; i < objFromStr.checkedNum.length; i++) {
+
+			checks[objFromStr.checkedNum[i]].checked = true;
+		}
+	});
+
+
+	email.addEventListener('change', function() {
+		let emailValidate = /^[a-z0-9\_\+\.\-]+@[a-z]+\.[a-z]{2,3}$/.test(this.value);
+		console.log(emailValidate);
+		if(emailValidate==false){
+			email.classList.add('outline-red');
+			email.classList.remove('outline-green')
+		}
+		if(emailValidate==true){
+			email.classList.add('outline-green');
+			email.classList.remove('outline-red');
+		}
+	});
+
+
+</script>
+</body>
+</html>
